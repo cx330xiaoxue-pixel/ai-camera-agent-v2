@@ -80,13 +80,14 @@
         "Judge 只能加码（CONTINUE/ADJUST → WARN/PAUSE），不能放行本地 PAUSE；查询消息只含画面数字与容差，无图像无硬件量",
         "单飞 + 默认 1.2 秒超时；超时/错误/占线一律按本地决策继续并标记 is_reviewed=false（未经复核）",
         "后端可插拔：TypeSafe Jev（官方 /v1/systemone）→ OpenAI 兼容 JSON 后端（如 DeepSeek）→ 无后端纯本地；结果带 backend 字段便于复盘",
-        "全部唤醒与结论写 JudgeReview 日志，export_jsonl 供镜头存档（A11）"
+        "全部唤醒与结论写 JudgeReview 日志，export_jsonl 供镜头存档（A11）",
+        "真实调用已验证（见 real_jev_validation.md）：官方端点 api.typesafe.ai 直连 PASS，返回格式与实现逐字段一致；三问 demo 实测 PAUSE/0.88/1.01s"
       ],
       "missing_information": [
-        "TypeSafe Jev 官方 wire format 需持真实 key 的一次 smoke 确认（当前按公开 quickstart 实现，解析已兼容 gateway 的 boolean/probability 变体）",
         "Observation 尚无 confidence 字段：APP_VISION 契约定稿时需补 0-100 置信度，否则 CONFIDENCE_DROP 触发不生效",
         "Supervisor 尚未接入执行循环（核心冻结）：接入点（demo 循环或 App 服务层）需团队决定",
-        "AgentDecision 无 WARN 档：如需把 WARN 写进统一决策契约属核心修改，需团队批准"
+        "AgentDecision 无 WARN 档：如需把 WARN 写进统一决策契约属核心修改，需团队批准",
+        "当前 Key 为预付额度制（用完即止不可充值），剩余额度需控制台人工查看；拍摄现场网络需复测直连稳定性"
       ],
       "affected_contract": ["JudgeQuery", "JudgeResult", "JudgeReview", "JudgeBackend Protocol", "JudgeSupervisor", "TypesafeJevBackend", "OpenAIJsonJudgeBackend"],
       "integration_status": "PARTIAL"
