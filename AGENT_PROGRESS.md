@@ -21,9 +21,9 @@ V0 Core and V0 Real LLM: historical PASS (281 offline / 9 real integration).
 | Real Executor | WAITING |
 | Real Robot E2E | WAITING |
 
-Offline: 554 passed / 11 integration deselected; exit 0.
+Offline: 554 passed / 12 integration deselected; exit 0.
 Real LLM evidence is historical; no real model call in this baseline freeze.
-Judge layer evidence: 47 new offline tests; supervisor not yet wired into the execution loop; Jev wire format needs one real-key smoke (tests/test_jev_smoke.py).
+Judge layer evidence: 47 new offline tests plus real smokes on both backends (typesafe_jev PAUSE/0.88/1.01s; deepseek openai_json WARN/0.90/1.50s, see real_jev_validation.md); supervisor not yet wired into the execution loop.
 
 Baseline: [integration_baseline.json](integration_baseline.json) (source/test SHA-256; no existing Git repository).
 Intake: [INTEGRATION_INTAKE.md](INTEGRATION_INTAKE.md) / [integration_intake.json](integration_intake.json).

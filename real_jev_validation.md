@@ -50,6 +50,26 @@ attempt 1: OK in 1.01s
 - 中文建议（与我们实现一致）：**state 保持中文原文，instructions/criteria 用英文**。
 - 账号门户（余额/接码登录，非调用端点）：`https://jev-query.longjinapi.com/`。
 
+## 证据 3：DeepSeek JSON 备用后端（tests/test_judge_deepseek_smoke.py，integration 标记）
+
+命令：`OPENAI_API_KEY=... python -m pytest tests/test_judge_deepseek_smoke.py -m integration -q -s`
+
+```
+attempt 1: OK in 1.50s
+{"action": "WARN", "confidence": 0.9, "reason": "center_x_deviation_near_tolerance_edge",
+ "backend": "openai_json", "is_reviewed": true, "quality_score": 0.75}
+```
+
+同一 demo 偏差（CENTER_X 超容差 1.6 倍）下两个后端的对比：
+
+| 后端 | 判断 | 置信度 | quality | 耗时 |
+| --- | --- | --- | --- | --- |
+| typesafe_jev (jev-1.13.0) | PAUSE | 0.88 | 0.555 | 1.01s |
+| openai_json (deepseek-flash) | WARN | 0.90 | 0.75 | 1.50s |
+
+判读：两者均合法（加码方向一致，松紧不同）；`backend` 字段保证复盘可区分。
+降级链双后端均真实验证 PASS：Jev 官方主通道 + DeepSeek 国内直连备胎。
+
 ## 成本核算（本场景）
 
 ping 请求 input_tokens=272（含固定编码开销）；一次完整三问判断约 500~800 input tokens。
