@@ -52,7 +52,11 @@ class JudgeQuery(ContractModel):
 
 
 class JudgeResult(ContractModel):
-    """One structured verdict. A judge never carries hardware quantities."""
+    """One structured verdict. A judge never carries hardware quantities.
+
+    ``members`` is reserved for committee backends: the archived per-member
+    verdicts behind a fused decision. Single backends leave it empty.
+    """
 
     action: JudgeAction
     confidence: Annotated[float, Field(ge=0.0, le=1.0, allow_inf_nan=False)]
@@ -60,6 +64,7 @@ class JudgeResult(ContractModel):
     backend: Identifier
     is_reviewed: bool
     quality_score: Annotated[float, Field(ge=0.0, le=1.0, allow_inf_nan=False)] | None = None
+    members: list["JudgeResult"] = Field(default_factory=list)
 
 
 class JudgeReview(ContractModel):
@@ -426,3 +431,75 @@ class OpenAIJsonJudgeBackend:
         return JudgeResult(action=action.upper(), confidence=confidence, reason=reason,
                            backend=self.backend_name, is_reviewed=True,
                            quality_score=quality_score)
+
+
+class CommitteeJudgeConfig(ContractModel):
+    member_confidence_floor: Annotated[float, Field(ge=0.0, le=1.0, allow_inf_nan=False)] = 0.5
+    member_timeout_seconds: PositiveTime = 1.2
+
+
+_SEVERITY_ORDER = {"CONTINUE": 0, "WARN": 1, "PAUSE": 2}
+
+
+def fuse_verdicts(member_results: list[JudgeResult | None], *,
+                  config: CommitteeJudgeConfig) -> JudgeResult:
+    """Deterministic committee fusion — plain code, never another model.
+
+    Rules, in the project's safety order: low-confidence members are dropped;
+    the surviving verdict with the highest severity wins (worst-case bias);
+    confidence is the strongest agreeing member; quality is the plain average.
+    Raising here lets the supervisor degrade to its unreviewed local decision.
+    """
+    valid = [member for member in member_results
+             if isinstance(member, JudgeResult) and member.confidence >= config.member_confidence_floor]
+    if not valid:
+        raise AgentError("JUDGE_MEMBERS_FAILED", "No committee member produced a usable verdict")
+    top_severity = max(_SEVERITY_ORDER[member.action] for member in valid)
+    fused_action = next(action for action, severity in _SEVERITY_ORDER.items() if severity == top_severity)
+    agreeing = [member for member in valid if member.action == fused_action]
+    confidence = max(member.confidence for member in agreeing)
+    scores = [member.quality_score for member in valid if member.quality_score is not None]
+    quality_score = sum(scores) / len(scores) if scores else None
+    reason = "committee_" + "_".join(sorted({member.action.lower() for member in valid}))
+    return JudgeResult(action=fused_action, confidence=confidence, reason=reason,
+                       backend="committee", is_reviewed=True, quality_score=quality_score,
+                       members=[member for member in member_results if member is not None])
+
+
+class CommitteeJudgeBackend:
+    """Run every member judge in parallel and fuse with fuse_verdicts.
+
+    The fusion adds zero serial latency: wall time is the slowest member.
+    A failing or timing-out member is dropped and the survivors decide; when
+    no member answers the AgentError propagates so the supervisor marks the
+    frame unreviewed. Wiring note: the supervisor's call_timeout_seconds must
+    stay above this member_timeout_seconds (add about 0.3 s of headroom).
+    """
+
+    backend_name = "committee"
+
+    def __init__(self, member_backends: list[JudgeBackend], *,
+                 config: CommitteeJudgeConfig | None = None):
+        if not member_backends:
+            raise AgentError("SCHEMA_ERROR", "Committee requires at least one member backend")
+        self._members = list(member_backends)
+        self._config = config or CommitteeJudgeConfig()
+
+    def judge(self, query: JudgeQuery) -> JudgeResult:
+        executor = ThreadPoolExecutor(max_workers=len(self._members),
+                                      thread_name_prefix="jev-committee")
+        futures = {executor.submit(member.judge, query): index
+                   for index, member in enumerate(self._members)}
+        member_results: list[JudgeResult | None] = [None] * len(self._members)
+        try:
+            for future in futures:
+                try:
+                    member_results[futures[future]] = future.result(
+                        timeout=self._config.member_timeout_seconds)
+                except FuturesTimeoutError:
+                    member_results[futures[future]] = None
+                except Exception:
+                    member_results[futures[future]] = None
+        finally:
+            executor.shutdown(wait=False)
+        return fuse_verdicts(member_results, config=self._config)

@@ -70,6 +70,28 @@ attempt 1: OK in 1.50s
 判读：两者均合法（加码方向一致，松紧不同）；`backend` 字段保证复盘可区分。
 降级链双后端均真实验证 PASS：Jev 官方主通道 + DeepSeek 国内直连备胎。
 
+## 证据 4：真双后端并行委员会（tests/test_judge_committee_smoke.py，integration 标记）
+
+同一 demo 偏差，Jev 与 DeepSeek **并行**判断后由确定性规则取严融合（`fuse_verdicts`，
+纯代码非第三个模型）：
+
+```
+attempt 1: OK in 1.75s (parallel wall time)
+{"action": "PAUSE", "confidence": 0.89, "reason": "committee_pause_warn",
+ "backend": "committee", "is_reviewed": true, "quality_score": 0.63,
+ "members": [
+   {"action": "PAUSE", "confidence": 0.89, "backend": "typesafe_jev", "quality_score": 0.54},
+   {"action": "WARN",  "confidence": 0.88, "backend": "openai_json",  "quality_score": 0.72}]}
+```
+
+- 墙钟 1.75s = 较慢成员（DeepSeek 1.5s）的时间，融合零串行开销；串行需 2.5s 以上。
+- 融合规则：低置信成员丢弃（阈值默认 0.5）→ 幸存者取最严档 → 置信度取同档最强 →
+  quality 取平均 → 成员原始判断全量存档（members 字段）。
+- 成员失败/超时自动降级为幸存者决定；全员失败抛 JUDGE_MEMBERS_FAILED → Supervisor
+  按本地决策继续并标"未经复核"。
+- 接线注意：Supervisor 的 call_timeout_seconds 须大于委员会 member_timeout_seconds
+  （建议 +0.3s 余量）。
+
 ## 成本核算（本场景）
 
 ping 请求 input_tokens=272（含固定编码开销）；一次完整三问判断约 500~800 input tokens。
