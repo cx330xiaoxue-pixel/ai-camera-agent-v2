@@ -10,6 +10,7 @@ V0 Core and V0 Real LLM: historical PASS (281 offline / 9 real integration).
 | --- | --- |
 | Planner V2 Core | PASS |
 | Feedback V2 | PASS |
+| Judge Layer (Jev review, JUDGE-001) | PARTIAL |
 | Visual Contract | PASS |
 | Planner V2 Real LLM | PASS |
 | Mock Compiler | PASS |
@@ -20,8 +21,9 @@ V0 Core and V0 Real LLM: historical PASS (281 offline / 9 real integration).
 | Real Executor | WAITING |
 | Real Robot E2E | WAITING |
 
-Offline: 507 passed / 10 integration deselected; exit 0.
+Offline: 554 passed / 11 integration deselected; exit 0.
 Real LLM evidence is historical; no real model call in this baseline freeze.
+Judge layer evidence: 47 new offline tests; supervisor not yet wired into the execution loop; Jev wire format needs one real-key smoke (tests/test_jev_smoke.py).
 
 Baseline: [integration_baseline.json](integration_baseline.json) (source/test SHA-256; no existing Git repository).
 Intake: [INTEGRATION_INTAKE.md](INTEGRATION_INTAKE.md) / [integration_intake.json](integration_intake.json).
@@ -40,10 +42,13 @@ Pending team decisions:
 - Pause/resume trajectory time semantics
 - Single continuous Shot vs multiple Shots demo
 - Canonical internal distance unit
+- Judge wire-in point (demo loop vs App server layer)
+- Observation confidence field (APP_VISION contract; CONFIDENCE_DROP trigger depends on it)
+- Whether AgentDecision gains a WARN tier (core change)
 
 Next: Receive confirmed team payload/API examples, update Intake, then TDD only the required Adapter.
 
-Last updated: 2026-10-03T11:49:34+08:00
+Last updated: 2026-10-03T14:30:04+08:00
 
 Public repository: [hard-66/ai-camera-agent-v2](https://github.com/hard-66/ai-camera-agent-v2).
 Source publication: PASS; Agent Core and external Integration statuses unchanged.
