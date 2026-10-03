@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent-core-foundation"
+version = "0.1.0"
+description = "Agent-only contracts, validation and MOCK ONLY execution foundation"
+requires-python = ">=3.11"
+dependencies = ["pydantic>=2,<3", "jsonschema>=4.17,<5"]
+
+[project.optional-dependencies]
+test = ["pytest>=7.4,<9"]
+openai = ["openai"]
+
+[tool.setuptools.packages.find]
+include = ["agent_system*"]
+
+[tool.setuptools.package-data]
+agent_system = ["mock_registry.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra -m 'not integration'"
+markers = ["integration: explicit opt-in real provider smoke tests; requires SDK, API key and model"]

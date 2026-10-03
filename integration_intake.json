@@ -1,0 +1,74 @@
+{
+  "mode": "INTEGRATION",
+  "allowed_statuses": ["WAITING", "PARTIAL", "READY_FOR_ADAPTER", "INTEGRATED", "VALIDATED"],
+  "records": [
+    {
+      "id": "APP_VISION-001",
+      "category": "APP_VISION",
+      "source_team": "队长此前口述；App/Vision 团队正式接口尚未交付",
+      "confirmed_value": [
+        "手机跟踪框选主体，提供 bbox 四角坐标 x1/y1/x2/y2，并读取主体距离",
+        "Agent 内部保留 Observation V1；外部 payload 只能通过 Observation Adapter 转换"
+      ],
+      "missing_information": [
+        "真实 payload 示例、字段名/类型和目标丢失/距离不可用的表达方式",
+        "bbox 坐标单位、原点/轴方向、画面旋转/裁剪约定；像素坐标时需要 frame 尺寸",
+        "distance 单位及有效性约定；目标和实测转换为同一内部单位",
+        "timestamp 单位和时钟域、数据频率及 freshness 约定",
+        "shot_id/plan_id 关联来源，以及 observation 对应 trajectory_time 的提供方式"
+      ],
+      "affected_contract": ["Observation V1", "Observation Gate", "Execution Timing Adapter"],
+      "integration_status": "WAITING"
+    },
+    {
+      "id": "REACHABILITY-001",
+      "category": "REACHABILITY",
+      "source_team": "队长可达性要求；Hardware/Planning 团队正式接口尚未交付",
+      "confirmed_value": [
+        "轨迹必须在执行前通过可达性检查，不能依靠 LLM 猜测",
+        "当前内部结果为 REACHABLE/UNREACHABLE/UNKNOWN + reason；只有 REACHABLE 允许编译"
+      ],
+      "missing_information": [
+        "真实 Reachability 校验入口和输入/输出示例、能力/标定版本",
+        "校验所需场景/主体/手机初始状态，以及团队负责提供的标定信息",
+        "机构可达范围、路线/组合/速度约束和 UNKNOWN/失败的返回约定"
+      ],
+      "affected_contract": ["ReachabilityValidator Protocol", "ReachabilityResult", "Planner/Compiler Reachability Gate"],
+      "integration_status": "WAITING"
+    },
+    {
+      "id": "MOTION_COMPILER-001",
+      "category": "MOTION_COMPILER",
+      "source_team": "已批准 Compiler 边界；Hardware/Planning 团队真实映射尚未交付",
+      "confirmed_value": [
+        "TargetTrajectory 是画面目标，不是电机轨迹",
+        "真实视觉目标到机构运动的映射留在 Compiler/Adapter 层；现有 Mock 只记录注册 fixture"
+      ],
+      "missing_information": [
+        "Compiler 负责人、真实调用入口、输入上下文和输出计划示例",
+        "真实 Action/Function 名称、parameter_schema、类型、单位、范围、约束及 Registry revision",
+        "动作顺序/组合能力与失败语义；输出到现有 StructuredAction/ShotExecutionPlan 的映射",
+        "画面修正维度支持范围，以及 TrajectoryCorrectionIntent 的真实编译接口"
+      ],
+      "affected_contract": ["MotionCompiler Protocol", "ActionRegistry", "StructuredAction", "ShotExecutionPlan", "CorrectionCapability"],
+      "integration_status": "WAITING"
+    },
+    {
+      "id": "EXECUTOR-001",
+      "category": "EXECUTOR",
+      "source_team": "已批准执行边界；外部执行团队真实接口尚未交付",
+      "confirmed_value": [
+        "Agent 校验计划不等于机构已经开始；EXECUTING 必须来自明确的执行开始报告",
+        "Executor 是外部依赖，Planner/Feedback 不直接驱动电机"
+      ],
+      "missing_information": [
+        "真实计划提交接口及 accepted/running/completed/failed 返回示例",
+        "plan_id/action_id/shot_id 关联、重复提交/超时/错误处理约定",
+        "执行开始时间与 Observation/trajectory_time 的关联方式",
+        "暂停/恢复接口和确认事件；pause/resume 时间策略仍待团队确认"
+      ],
+      "affected_contract": ["Executor Adapter", "ExecutionEvent", "AgentState", "Execution Timing Adapter"],
+      "integration_status": "WAITING"
+    }
+  ]
+}

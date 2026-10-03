@@ -1,0 +1,141 @@
+{
+  "current_phase": "Integration - Team Contract Intake",
+  "current_gate": "WAITING",
+  "total_tests_passed": 507,
+  "integration_tests_deselected": 10,
+  "agent_1_status": "PASS",
+  "agent_2_status": "PASS",
+  "agent_3_status": "PASS",
+  "real_llm_status": "PASS",
+  "agent_core_e2e_status": "PASS",
+  "hardware_integration_status": "WAITING",
+  "app_vision_integration_status": "WAITING",
+  "blocking_items": [],
+  "next_task": "Receive confirmed team payload/API examples, update Intake, then TDD only the required Adapter.",
+  "last_updated": "2026-10-03T11:13:27+08:00",
+  "core_phases": [
+    {
+      "phase": "Phase 1",
+      "module": "Foundation",
+      "status": "PASS",
+      "evidence": "112 tests passed"
+    },
+    {
+      "phase": "Phase 2",
+      "module": "Agent 3 Feedback",
+      "status": "PASS",
+      "evidence": "168 tests passed"
+    },
+    {
+      "phase": "Phase 3",
+      "module": "Agent 2 Mapping",
+      "status": "PASS",
+      "evidence": "214 passed; 2 integration deselected"
+    },
+    {
+      "phase": "Phase 4",
+      "module": "Agent 1 Director",
+      "status": "PASS",
+      "evidence": "Phase 4A historical: 273 passed; 6 integration deselected; exit 0"
+    }
+  ],
+  "patch_gates": [
+    {
+      "phase": "Phase 2.1",
+      "status": "PASS",
+      "evidence": "Correction budget semantics patched; regression passed"
+    }
+  ],
+  "phase_4a_gate": "PASS",
+  "phase_4b_gate": "PASS",
+  "agent_1_real_llm_status": "PASS",
+  "agent_2_real_llm_status": "PASS",
+  "real_llm_provider": "DeepSeek",
+  "real_llm_model": "deepseek-flash",
+  "integration_tests_passed": 9,
+  "architecture_migration_status": "IN_PROGRESS",
+  "phase_5a_gate": "PASS",
+  "visual_target_contract_status": "PASS",
+  "feedback_v2_status": "PASS",
+  "compiler_status": "PASS",
+  "planner_v2_status": "PASS",
+  "v0_core_status": "PASS",
+  "v0_real_llm_status": "PASS",
+  "v0_historical_offline_tests_passed": 281,
+  "v0_historical_integration_tests_passed": 9,
+  "pending_architecture_decisions": [
+    "Final two-Agent / three-Agent naming",
+    "Whether Tool Mapper remains an Agent",
+    "Ownership of real visual-to-motion Compiler",
+    "Whether distance is a user planning target",
+    "Pause/resume trajectory time semantics",
+    "Single continuous Shot vs multiple Shots demo"
+  ],
+  "real_llm_status_scope": "V0 Historical Baseline",
+  "phase_5a_evidence": {
+    "historical_v0_offline_passed": 281,
+    "new_contract_tests_passed": 110,
+    "offline_total_passed": 391,
+    "integration_deselected": 9,
+    "exit_code": 0,
+    "command": ".venv/Scripts/python.exe -m pytest -q -W error",
+    "real_api_calls": 0
+  },
+  "contract_schema_versions": {
+    "legacy_v0": "0.1",
+    "visual_target_v1": "0.2"
+  },
+  "phase_5b_gate": "PASS",
+  "trajectory_feedback_contract_e2e_status": "PASS",
+  "pending_team_contracts": [
+    "Canonical internal distance unit"
+  ],
+  "phase_5b_evidence": {
+    "previous_offline_baseline_passed": 391,
+    "new_feedback_tests_passed": 88,
+    "offline_total_passed": 479,
+    "integration_deselected": 9,
+    "exit_code": 0,
+    "command": ".venv/Scripts/python.exe -m pytest -q -W error",
+    "real_api_calls": 0
+  },
+  "v2_offline_e2e_status": "PASS",
+  "planner_v2_real_llm_status": "PASS",
+  "hardware_compiler_status": "WAITING",
+  "real_robot_status": "WAITING",
+  "demo_v2_status": "PASS",
+  "delivery_gate": "PASS",
+  "planner_v2_real_llm_provider": "DeepSeek",
+  "planner_v2_real_llm_model": "deepseek-flash",
+  "delivery_evidence": {
+    "previous_offline_baseline_passed": 479,
+    "new_offline_tests_passed": 28,
+    "offline_total_passed": 507,
+    "integration_deselected": 10,
+    "offline_exit_code": 0,
+    "real_planner_v2_smoke_passed": 1,
+    "real_provider_requests": 1,
+    "real_smoke_exit_code": 0,
+    "v0_integration_historical_passed": 9,
+    "command": ".venv/Scripts/python.exe -m pytest -q -W error",
+    "demo_command": ".venv/Scripts/python.exe -m agent_system.demo_v2",
+    "backup_path": "backup/20261003-104331"
+  },
+  "real_motion_mapping_status": "PENDING HARDWARE / PLANNING CONTRACT",
+  "working_mode": "INTEGRATION",
+  "agent_core_frozen": true,
+  "baseline_freeze_status": "PASS",
+  "baseline_manifest": "integration_baseline.json",
+  "integration_intake_file": "integration_intake.json",
+  "real_observation_status": "WAITING",
+  "real_reachability_status": "WAITING",
+  "real_compiler_status": "WAITING",
+  "real_executor_status": "WAITING",
+  "real_robot_e2e_status": "WAITING",
+  "integration_contract_status": {
+    "APP_VISION": "WAITING",
+    "REACHABILITY": "WAITING",
+    "MOTION_COMPILER": "WAITING",
+    "EXECUTOR": "WAITING"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "revision": "mock-v0",
+  "actions": {
+    "move_forward": {
+      "action_name": "move_forward",
+      "motion_semantics": ["forward-like"],
+      "description": "MOCK ONLY: illustrative forward action; no real robot units or precision.",
+      "parameter_schema": {
+        "type": "object",
+        "properties": {
+          "speed_level": {"type": "string", "enum": ["slow", "medium", "fast"]},
+          "duration": {"type": "number", "exclusiveMinimum": 0, "maximum": 10, "description": "MOCK ONLY illustrative seconds"}
+        },
+        "required": ["speed_level", "duration"],
+        "additionalProperties": false
+      },
+      "allowed_usage": ["INITIAL"],
+      "correction_allowed": false
+    },
+    "move_backward": {
+      "action_name": "move_backward",
+      "motion_semantics": ["backward-like"],
+      "description": "MOCK ONLY: illustrative backward action, not a real hardware contract.",
+      "parameter_schema": {
+        "type": "object",
+        "properties": {
+          "speed_level": {"type": "string", "enum": ["slow", "medium", "fast"]},
+          "duration": {"type": "number", "exclusiveMinimum": 0, "maximum": 10, "description": "MOCK ONLY illustrative seconds"}
+        },
+        "required": ["speed_level", "duration"],
+        "additionalProperties": false
+      },
+      "allowed_usage": ["INITIAL"],
+      "correction_allowed": false
+    },
+    "rotate": {
+      "action_name": "rotate",
+      "motion_semantics": ["rotation"],
+      "description": "MOCK ONLY: illustrates a correction-permitted action; no real angle mapping.",
+      "parameter_schema": {
+        "type": "object",
+        "properties": {
+          "direction": {"type": "string", "enum": ["left", "right"]},
+          "duration": {"type": "number", "exclusiveMinimum": 0, "maximum": 2, "description": "MOCK ONLY illustrative seconds"}
+        },
+        "required": ["direction", "duration"],
+        "additionalProperties": false
+      },
+      "allowed_usage": ["INITIAL", "CORRECTION"],
+      "correction_allowed": true,
+      "correction_dimensions": ["horizontal"]
+    },
+    "hold": {
+      "action_name": "hold",
+      "motion_semantics": ["hold"],
+      "description": "MOCK ONLY: illustrative hold action, not real safety or braking.",
+      "parameter_schema": {
+        "type": "object",
+        "properties": {"duration": {"type": "number", "exclusiveMinimum": 0, "maximum": 10, "description": "MOCK ONLY illustrative seconds"}},
+        "required": ["duration"],
+        "additionalProperties": false
+      },
+      "allowed_usage": ["INITIAL"],
+      "correction_allowed": false
+    }
+  }
+}

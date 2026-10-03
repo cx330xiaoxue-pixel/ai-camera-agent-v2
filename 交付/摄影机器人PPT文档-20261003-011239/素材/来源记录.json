@@ -1,0 +1,53 @@
+[
+  {
+    "id": "A01",
+    "source_url": "https://www.pexels.com/photo/smartphone-on-tripod-13929769/",
+    "author": "Mizuno K",
+    "site": "Pexels",
+    "license_url": "https://www.pexels.com/license/",
+    "retrieved": "2026-10-03",
+    "image_url": "https://images.pexels.com/photos/13929769/pexels-photo-13929769.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "size": [
+      1600,
+      2400
+    ],
+    "file": "A01.jpg"
+  },
+  {
+    "id": "A02",
+    "source_url": "https://unsplash.com/photos/man-setting-up-studio-lighting-for-product-photography-beHPut9RwUM",
+    "author": "Bianca Maria",
+    "site": "Unsplash",
+    "license_url": "https://unsplash.com/license",
+    "retrieved": "2026-10-03",
+    "error": "HTTP Error 401: Unauthorized"
+  },
+  {
+    "id": "A03",
+    "source_url": "https://www.pexels.com/photo/a-man-recording-himself-using-his-phone-8359957/",
+    "author": "Ron Lach",
+    "site": "Pexels",
+    "license_url": "https://www.pexels.com/license/",
+    "retrieved": "2026-10-03",
+    "image_url": "https://images.pexels.com/photos/8359957/pexels-photo-8359957.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "size": [
+      1600,
+      2400
+    ],
+    "file": "A03.jpg"
+  },
+  {
+    "id": "A04",
+    "source_url": "https://www.pexels.com/photo/woman-talking-to-camera-while-standing-in-classroom-during-online-lessons-7516387/",
+    "author": "SHVETS production",
+    "site": "Pexels",
+    "license_url": "https://www.pexels.com/license/",
+    "retrieved": "2026-10-03",
+    "image_url": "https://images.pexels.com/photos/7516387/pexels-photo-7516387.jpeg?auto=compress&cs=tinysrgb&w=1600",
+    "size": [
+      1600,
+      1067
+    ],
+    "file": "A04.jpg"
+  }
+]

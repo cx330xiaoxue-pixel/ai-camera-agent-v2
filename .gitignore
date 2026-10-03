@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+.env
+.env.*
+!.env.example
+backup/
+reference-inspection/
+packages/
+tools-local/
+**/_工作文件/
