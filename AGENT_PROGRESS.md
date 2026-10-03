@@ -43,4 +43,8 @@ Pending team decisions:
 
 Next: Receive confirmed team payload/API examples, update Intake, then TDD only the required Adapter.
 
-Last updated: 2026-10-03T11:13:27+08:00
+Last updated: 2026-10-03T11:49:34+08:00
+
+Public repository: [hard-66/ai-camera-agent-v2](https://github.com/hard-66/ai-camera-agent-v2).
+Source publication: PASS; Agent Core and external Integration statuses unchanged.
+Team clone/setup/Demo/Fork/PR instructions: [README.md](README.md).

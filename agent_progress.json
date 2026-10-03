@@ -12,7 +12,7 @@
   "app_vision_integration_status": "WAITING",
   "blocking_items": [],
   "next_task": "Receive confirmed team payload/API examples, update Intake, then TDD only the required Adapter.",
-  "last_updated": "2026-10-03T11:13:27+08:00",
+  "last_updated": "2026-10-03T11:49:34+08:00",
   "core_phases": [
     {
       "phase": "Phase 1",
@@ -137,5 +137,9 @@
     "REACHABILITY": "WAITING",
     "MOTION_COMPILER": "WAITING",
     "EXECUTOR": "WAITING"
-  }
+  },
+  "github_repository_url": "https://github.com/hard-66/ai-camera-agent-v2",
+  "github_repository_visibility": "public",
+  "github_source_publication_status": "PASS",
+  "github_source_commit": "6dd54a2c1f136a55b6faf5d584e6e6c8805964f2"
 }

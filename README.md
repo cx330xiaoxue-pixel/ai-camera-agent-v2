@@ -173,3 +173,9 @@ git push -u origin integration/app-vision
 上传包含项目源码、测试、配置样例、接口记录、验证报告、进度文件和已交付材料。
 本机 `.env`、虚拟环境、缓存、备份、下载参考和 `_工作文件` 草稿/预览不进入仓库；它们仍保留在本地。
 历史冻结清单记录的是 README 改写前的指纹；原文已保存至 docs/DEVELOPMENT_HISTORY.md，核心源码和测试保持原样。
+
+## 9. 打包下载
+
+除正常 Git clone 外，可下载 [Agent V2 完整交付 ZIP](artifacts/ai-camera-agent-v2-demo-ready.zip)。
+ZIP 包含源码、测试、配置样例、接口与验证文档、进度文件和最终比赛材料；不包含凭据、虚拟环境、缓存、备份或 Git 内部目录。
+需要持续协作和提交 PR 时请使用 Git clone / Fork；ZIP 是本次发布的交付快照。
